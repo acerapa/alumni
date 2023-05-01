@@ -1,0 +1,269 @@
+CREATE TABLE `alumnus_bio` (
+  `id` int(30) NOT NULL,
+  `idnum` varchar(10) NOT NULL,
+  `firstname` varchar(200) NOT NULL,
+  `middlename` varchar(200) NOT NULL,
+  `lastname` varchar(200) NOT NULL,
+  `course` varchar(30) NOT NULL,
+  `email` varchar(250) NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0= Unverified, 1= Verified',
+  `date_created` date NOT NULL,
+  `contact` varchar(30) NOT NULL
+);
+
+INSERT INTO `alumnus_bio` (`id`, `idnum`, `firstname`, `middlename`, `lastname`, `course`, `email`, `status`, `date_created`, `contact`) VALUES
+(123, '', 'Ram', 'Ocsin', 'Ortega', 'BS Computer Science', 'ramonortegajr1997@gmail.com', 1, '2023-01-29', '09327382732'),
+(15107253, '', 'klint john', 'b', 'cagot', '2019', 'klintjohn60@gmail.com', 0, '0000-00-00', '09150520642');
+
+CREATE TABLE `careers` (
+  `id` int(30) NOT NULL,
+  `company` varchar(250) NOT NULL,
+  `location` text NOT NULL,
+  `job_title` text NOT NULL,
+  `description` text NOT NULL,
+  `user_id` int(30) NOT NULL,
+  `date_created` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+INSERT INTO `careers` (`id`, `company`, `location`, `job_title`, `description`, `user_id`, `date_created`) VALUES
+(3, 'Aquarius Systems Ph', 'Cebu CIty', 'Software Engineer', 'Lorem Epsum', 4, '2022-10-25 21:04:02'),
+(4, 'AQS', 'IT Park', 'Software Engineer', 'Sample', 7, '2023-01-12 12:15:02');
+
+CREATE TABLE `courses` (
+  `id` int(30) NOT NULL,
+  `course` text NOT NULL,
+  `about` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `courses` (`id`, `course`, `about`) VALUES
+(1, 'BS Computer Science', 'Sample'),
+(3, 'BS Office Administration', ''),
+(4, 'BS Information Technology', ''),
+(5, 'BS HRM', '');
+
+CREATE TABLE `events` (
+  `id` int(30) NOT NULL,
+  `title` varchar(250) NOT NULL,
+  `content` text NOT NULL,
+  `schedule` datetime NOT NULL,
+  `banner` text NOT NULL,
+  `date_created` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+CREATE TABLE `event_commits` (
+  `id` int(30) NOT NULL,
+  `event_id` int(30) NOT NULL,
+  `user_id` int(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+INSERT INTO `event_commits` (`id`, `event_id`, `user_id`) VALUES
+(1, 1, 3),
+(2, 2, 4);
+
+
+CREATE TABLE `forum_comments` (
+  `id` int(30) NOT NULL,
+  `topic_id` int(30) NOT NULL,
+  `comment` text NOT NULL,
+  `user_id` int(30) NOT NULL,
+  `date_created` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `forum_topics` (
+  `id` int(30) NOT NULL,
+  `title` varchar(250) NOT NULL,
+  `description` text NOT NULL,
+  `user_id` int(30) NOT NULL,
+  `date_created` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+CREATE TABLE `gallery` (
+  `id` int(30) NOT NULL,
+  `about` text NOT NULL,
+  `created` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+INSERT INTO `gallery` (`id`, `about`, `created`) VALUES
+(6, 'Jurrasic Park', '2022-10-25 20:51:25');
+
+
+CREATE TABLE `graduate_survey_form` (
+  `id` int(255) NOT NULL,
+  `user_id` int(30) NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `image_pathname` varchar(9999) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `contact` int(15) DEFAULT NULL,
+  `civil_status` enum('single','maried','widow','single_parent','separated') DEFAULT NULL,
+  `baccalaureate` varchar(255) DEFAULT NULL,
+  `baccalaureate_year` date DEFAULT NULL,
+  `baccalaureate_award` varchar(255) DEFAULT NULL,
+  `college` varchar(255) DEFAULT NULL,
+  `college_year` date DEFAULT NULL,
+  `college_award` varchar(255) DEFAULT NULL,
+  `highschool` varchar(255) DEFAULT NULL,
+  `highschool_year` date DEFAULT NULL,
+  `highschool_award` varchar(255) DEFAULT NULL,
+  `elementary` varchar(255) DEFAULT NULL,
+  `elementary_year` date DEFAULT NULL,
+  `elementary_award` varchar(255) DEFAULT NULL,
+  `advance_study` enum('masteral','doctorate') DEFAULT NULL,
+  `masteral` varchar(255) DEFAULT NULL,
+  `masteral_year` date DEFAULT NULL,
+  `masteral_award` varchar(255) DEFAULT NULL,
+  `doctorate` varchar(255) DEFAULT NULL,
+  `doctorate_year` date DEFAULT NULL,
+  `doctorate_award` varchar(255) DEFAULT NULL,
+  `employment_status` enum('employed','unemployed') DEFAULT NULL,
+  `present_occupation` varchar(255) DEFAULT NULL,
+  `date_hired` date DEFAULT NULL,
+  `present_company_name` varchar(255) DEFAULT NULL,
+  `present_company_address` varchar(255) DEFAULT NULL,
+  `previous_occupation` varchar(255) DEFAULT NULL,
+  `previous_year` date DEFAULT NULL,
+  `previous_company_name` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `survey` (
+  `id` int(11) NOT NULL,
+  `name` varchar(30) NOT NULL,
+  `address` varchar(30) NOT NULL,
+  `email` varchar(30) NOT NULL,
+  `contact` varchar(20) NOT NULL,
+  `civil_status` varchar(20) NOT NULL,
+  `bac` varchar(50) NOT NULL,
+  `bac_year` varchar(20) NOT NULL,
+  `bac_award` varchar(20) NOT NULL,
+  `college` varchar(30) NOT NULL,
+  `cgraduated` year(4) NOT NULL,
+  `cawards` varchar(20) NOT NULL,
+  `highschool` varchar(20) NOT NULL,
+  `hgraduated` varchar(20) NOT NULL,
+  `hawards` varchar(20) NOT NULL,
+  `elementary` varchar(20) NOT NULL,
+  `egraduated` varchar(20) NOT NULL,
+  `eawards` varchar(20) NOT NULL,
+  `employment_status` varchar(20) NOT NULL,
+  `occupation` varchar(20) NOT NULL,
+  `datehired` varchar(20) NOT NULL,
+  `company_name` varchar(20) NOT NULL,
+  `company_address` varchar(20) NOT NULL,
+  `prof_employment` varchar(60) NOT NULL,
+  `job` varchar(40) NOT NULL,
+  `job_yr` varchar(20) NOT NULL,
+  `job_com` varchar(40) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+INSERT INTO `survey` (`id`, `name`, `address`, `email`, `contact`, `civil_status`, `bac`, `bac_year`, `bac_award`, `college`, `cgraduated`, `cawards`, `highschool`, `hgraduated`, `hawards`, `elementary`, `egraduated`, `eawards`, `employment_status`, `occupation`, `datehired`, `company_name`, `company_address`, `prof_employment`, `job`, `job_yr`, `job_com`) VALUES
+(33, 'Ramon Ortega Jr', 'Tuburan Province', 'ramonortegajr1997@gmail.com', '09327382732', 'Single', 'Advance Studies-Masters & Doctorate', '2023-08', 'NONE', 'Cebu Technological University-', 2023, 'NONE', 'Tuburan National Hig', '2023-03', 'NONE', 'Tuburan Elementary S', '2023-10', 'NONE', 'Employed', 'Software Engineer', '2023-01-11', 'AQS', 'IT PARK', 'PS4.jpg', 'NONE', 'NONE', 'NONE'),
+(35, 'Jacob Baring C', 'Cebu City', 'jacobbaring@gmail.com', '09327382732', 'Single', 'Advance Studies-Masters & Doctorate', '2023-02', 'NONE', 'Cebu Technological University-', 2023, 'NONE', 'Tuburan National Hig', '2023-02', 'NONE', 'Tuburan Elementary S', '2023-02', 'NONE', 'Employed', 'Software Engineer', '2023-02-01', 'AQS', 'IT PARK', 'graduation-05-920x518.jpg', 'NONE', 'NONE', 'NONE');
+
+CREATE TABLE `system_settings` (
+  `id` int(30) NOT NULL,
+  `name` text NOT NULL,
+  `email` varchar(200) NOT NULL,
+  `contact` varchar(20) NOT NULL,
+  `cover_img` text NOT NULL,
+  `about_content` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `system_settings` (`id`, `name`, `email`, `contact`, `cover_img`, `about_content`) VALUES
+(1, 'Tuburan Graduate Tracer', 'tuburan2020@gmail.com', '09676276437', '1674529740_graduation-05-920x518.jpg', 'Description');
+
+CREATE TABLE `users` (
+  `id` int(30) NOT NULL,
+  `idnum` varchar(20) NOT NULL,
+  `name` text NOT NULL,
+  `course` varchar(20) NOT NULL,
+  `username` varchar(200) NOT NULL,
+  `password` text NOT NULL,
+  `type` tinyint(1) NOT NULL DEFAULT '3' COMMENT '1=Admin,2=Alumni officer, 3= alumnus',
+  `auto_generated_pass` text NOT NULL,
+  `alumnus_id` int(30) NOT NULL,
+  `contact` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `users` (`id`, `idnum`, `name`, `course`, `username`, `password`, `type`, `auto_generated_pass`, `alumnus_id`, `contact`) VALUES
+(20, '', 'Administrator', '', 'admin@sample.com', 'admin', 1, '', 20, ''),
+(40, '123', 'Ram Ortega', 'BS Computer Science', 'ramonortegajr1997@gmail.com', 'ram', 3, '', 123, '09327382732');
+
+
+ALTER TABLE `alumnus_bio`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `careers`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `courses`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `events`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `event_commits`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `forum_comments`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `forum_topics`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `gallery`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `graduate_survey_form`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `users_user_id_fk1` (`user_id`);
+  
+ALTER TABLE `survey`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `system_settings`
+  ADD PRIMARY KEY (`id`);
+
+
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`);
+  
+ALTER TABLE `alumnus_bio`
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15107254;
+
+ALTER TABLE `careers`
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+ALTER TABLE `courses`
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+ALTER TABLE `events`
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `event_commits`
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+ALTER TABLE `forum_comments`
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `forum_topics`
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `gallery`
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+ALTER TABLE `graduate_survey_form`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+ALTER TABLE `survey`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+
+ALTER TABLE `system_settings`
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+ALTER TABLE `users`
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+
