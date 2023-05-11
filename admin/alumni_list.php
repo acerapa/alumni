@@ -32,6 +32,30 @@
 							 <p><center>Alumni Graduates Report</center></p>
 						</div>
 						<div class="card-body">
+							<div class="filer-cont">
+								<label for="">Batch: </label>
+								<select name="batch-filter" id="batch-filter">
+									<option value="">Select Batch</option>
+									<?php
+										$index = 1;
+										$batches = $conn->query("SELECT DISTINCT(users.course) FROM `graduate_survey_form` JOIN users ON graduate_survey_form.user_id = users.id");
+										while ($batch=$batches->fetch_assoc()):
+									?>
+										<option value="<?php echo $batch['course']; ?>"><?php echo $batch['course']; ?></option>
+									<?php 
+										$index++;
+										endwhile;
+									?>
+								</select>
+								<label for="">Employement Status: </label>
+								<select name="employement-status-filter" id="employement-status-filter">
+									<option value="">Select Employement Status</option>
+									<option value="employed">Employed</option>
+									<option value="unemployed">Unemployed</option>
+								</select>
+								<label for="">Search: </label>
+								<input type="text" id="general-search">
+							</div>
 						<table class="table table-condensed table-bordered table-hover">
 							<!-- <colgroup>
 								<col width="5%">
@@ -124,6 +148,22 @@
 	    max-height: calc(100%);
 	    border-radius: 100%;
 	}
+	#employement-status-filter, #general-search {
+		height: 30px;
+		width: 191px;
+		z-index: 1;
+	}
+	.card-body {
+		position: relative;
+	}
+	.filer-cont {
+		right: 0;
+		position: absolute;
+		z-index: 1;
+	}
+	#DataTables_Table_0_filter {
+		display: none;
+	}
 
 	@media print {
 		#sidebar, tr :nth-child(8), #prnt,
@@ -156,10 +196,33 @@
 			font-weight: bold;
 			display: block;
 		}
+
+		.filter-cont {
+			display: none !important;
+		}
 	} 
 </style>
 
 <script>
+	let tableConfig = {
+		columns: [
+			{ data: 'id', title: '#' },
+			{ data: 'name', title: 'Name' },
+			{ data: 'address', title: 'Address' },
+			{ data: 'email', title: 'Email' },
+			{ data: 'contact', title: 'Contact' },
+			{ data: 'batch', title: 'Batch' },
+			{ data: 'employement_status', title: 'Employement Status' },
+			{ data: 'action', title: 'Action' },
+		],
+		columnDefs: [
+    		{ 
+				"searchable": false, 
+				"targets": [6,7] 
+			}
+  		]
+	};
+
 	$('#print').click(function(){
 		// var row = document.getElementById("row1");
 		// var row2 = document.getElementById("row2");
@@ -191,34 +254,87 @@
 
 	window.addEventListener('afterprint', function () {
 		table.destroy();
-		table = $('table').DataTable({
-			search: {
-				smart: false
-			}
-		});
+		table = $('table').DataTable(tableConfig);
 	});
 
 	var mediaQueryList = window.matchMedia('print');
 		mediaQueryList.addListener(function(mql) {
 		if (!mql.matches) {
 			table.destroy();
-			table = $('table').DataTable({
-				search: {
-					smart: false
-				}
-			});
+			table = $('table').DataTable(tableConfig);
 		}
 	});
 
 	var table = null;
 	$(document).ready(function(){
-		table = $('table').DataTable({
-			search: {
-				smart: false
-			}
-		})
+		table = $('table').DataTable(tableConfig);
+		localStorage.setItem('table_data', JSON.stringify(extractData(table.data())));
 	})
 	
+	$('#general-search').on('input', function () {
+		table.search(this.value).draw();
+	});
+
+	$('#employement-status-filter').on('change', function () {
+		let dataToSearch = JSON.parse(localStorage.getItem('table_data'));
+		let filteredData = dataToSearch.filter(data => {
+			let prepareComp = data.employement_status.replace('<p>', '').replace('</p>', '').toLowerCase();
+			if (!this.value) return data;
+			if (prepareComp == this.value) {
+				return data;
+			}
+		});
+
+		// filter for batch
+		let batchValue = $('#batch-filter').val();
+		if (batchValue) {
+			filteredData = filteredData.filter(data => {
+				let prepareComp = data.batch.replace('<p>', '').replace('</p>', '');
+				if (batchValue == prepareComp) {
+					return data;
+				}
+			});
+		}
+
+		table.clear();
+		table.rows.add(filteredData).draw();
+
+		let searchInput = $('#general-search').val();
+		if (searchInput) {
+			table.search(searchInput).draw();
+		}
+	});
+
+	$('#batch-filter').on('change', function () {
+		let dataToSearch = JSON.parse(localStorage.getItem('table_data'));
+		let filteredData = dataToSearch.filter(data => {
+			let prepareComp = data.batch.replace('<p>', '').replace('</p>', '');
+			if (!this.value) return data;
+			if (this.value == prepareComp) {
+				return data;
+			}
+		});
+
+		// filter for employee status
+		let employementStatusValue = $('#employement-status-value').val();
+		if (employementStatusValue) {
+			filteredData = filteredData.filter(data => {
+				let prepareComp = data.employement_status.replace('<p>', '').replace('</p>', '').toLowerCase();
+				if (prepareComp == this.value) {
+					return data;
+				}
+			});
+		}
+
+		table.clear();
+		table.rows.add(filteredData).draw();
+
+		let searchInput = $('#general-search').val();
+		if (searchInput) {
+			table.search(searchInput).draw();
+		}
+	});
+
 	$('.view_survey').click(function(){
 		uni_modal("Alumni Survey Form","view_survey.php?id="+$(this).attr('data-id'),'mid-large')
 		
@@ -226,6 +342,18 @@
 	$('.delete_alumni').click(function(){
 		_conf("Are you sure to delete this alumni?","delete_alumni",[$(this).attr('data-id')])
 	})
+
+	function extractData(data) {
+		return Object.values(data).filter(data => {
+			if (typeof data === 'object') {
+				if (!Array.isArray(data)) {
+					if (data.id) {
+						return data;
+					}
+				}
+			}
+		});
+	}
 	
 	function delete_alumni($id){
 		$.ajax({
