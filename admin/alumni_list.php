@@ -125,7 +125,6 @@
 	    border-radius: 100%;
 	}
 
-
 	@media print {
 		#sidebar, tr :nth-child(8), #prnt,
 		#DataTables_Table_0_length, #DataTables_Table_0_filter,
@@ -157,7 +156,7 @@
 			font-weight: bold;
 			display: block;
 		}
-	}
+	} 
 </style>
 
 <script>
@@ -184,7 +183,7 @@
 		// display all the data in datatables
 		table.destroy();
 		table = $('table').DataTable({
-			pageLength: -1
+			pageLength: -1,
 		});
 
 		window.print();
@@ -192,20 +191,32 @@
 
 	window.addEventListener('afterprint', function () {
 		table.destroy();
-		table = $('table').DataTable();
+		table = $('table').DataTable({
+			search: {
+				smart: false
+			}
+		});
 	});
 
 	var mediaQueryList = window.matchMedia('print');
 		mediaQueryList.addListener(function(mql) {
 		if (!mql.matches) {
 			table.destroy();
-			table = $('table').DataTable();
+			table = $('table').DataTable({
+				search: {
+					smart: false
+				}
+			});
 		}
 	});
 
 	var table = null;
 	$(document).ready(function(){
-		table = $('table').DataTable()
+		table = $('table').DataTable({
+			search: {
+				smart: false
+			}
+		})
 	})
 	
 	$('.view_survey').click(function(){
