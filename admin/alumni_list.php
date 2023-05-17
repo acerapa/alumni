@@ -271,6 +271,7 @@
 	window.addEventListener('afterprint', function () {
 		table.destroy();
 		table = $('table').DataTable(tableConfig);
+		setViewFunction();
 	});
 
 	var mediaQueryList = window.matchMedia('print');
@@ -278,6 +279,7 @@
 		if (!mql.matches) {
 			table.destroy();
 			table = $('table').DataTable(tableConfig);
+			setViewFunction();
 		}
 	});
 
@@ -285,10 +287,12 @@
 	$(document).ready(function(){
 		table = $('table').DataTable(tableConfig);
 		localStorage.setItem('table_data', JSON.stringify(extractData(table.data())));
+		setViewFunction();
 	})
 	
 	$('#general-search').on('input', function () {
 		table.search(this.value).draw();
+		setViewFunction();
 	});
 
 	$('#employement-status-filter').on('change', function () {
@@ -319,6 +323,8 @@
 		if (searchInput) {
 			table.search(searchInput).draw();
 		}
+
+		setViewFunction();
 	});
 
 	$('#batch-filter').on('change', function () {
@@ -349,12 +355,16 @@
 		if (searchInput) {
 			table.search(searchInput).draw();
 		}
+
+		setViewFunction();
 	});
 
-	$('.view_survey').click(function(){
-		uni_modal("Alumni Survey Form","view_survey.php?id="+$(this).attr('data-id'),'mid-large')
-		
-	})
+	function setViewFunction () {
+		$('.view_survey').click(function(){
+			uni_modal("Alumni Survey Form","view_survey.php?id="+$(this).attr('data-id'),'mid-large')
+		})
+	}
+
 	$('.delete_alumni').click(function(){
 		_conf("Are you sure to delete this alumni?","delete_alumni",[$(this).attr('data-id')])
 	})
