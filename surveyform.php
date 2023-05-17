@@ -155,19 +155,19 @@ include('./admin/db_connect.php');
      </div>
          <div class="col-md-4">
         <label for="" class="control-label">Advance Studies</label>
-        <input  style="width:250px; padding:5px; margin-left:.4%" type="text" class="form-control" name="studies"   >
+        <input  style="width:250px; padding:5px; margin-left:.4%" type="text" class="form-control" name="studies-1"   >
          &nbsp; Year Graduated
-        <input  style="width:250px; padding:5px; margin-left:1%" type="text" class="form-control" name="studies_year"  >
+        <input  style="width:250px; padding:5px; margin-left:1%" type="text" class="form-control" name="studies_year-1"  >
         &nbsp; Unit Earned
-        <input  style="width:250px; padding:5px; margin-left:3.6%" type="text" class="form-control" name="studies_earned"  >
+        <input  style="width:250px; padding:5px; margin-left:3.6%" type="text" class="form-control" name="studies_earned-1"  >
         <br>
-        <input  style="width:250px; padding:5px; margin-left: 115px" type="text" class="form-control" name="studies"   >
-        <input  style="width:250px; padding:5px; margin-left:10.4%" type="text" class="form-control" name="studies_year"  >
-        <input  style="width:250px; padding:5px; margin-left:11.2%" type="text" class="form-control" name="studies_earned"  >
+        <input  style="width:250px; padding:5px; margin-left: 115px" type="text" class="form-control" name="studies-2"   >
+        <input  style="width:250px; padding:5px; margin-left:10.4%" type="text" class="form-control" name="studies_year-2"  >
+        <input  style="width:250px; padding:5px; margin-left:11.2%" type="text" class="form-control" name="studies_earned-2"  >
         <br>
-        <input  style="width:250px; padding:5px; margin-left: 115px" type="text" class="form-control" name="studies"   >
-        <input  style="width:250px; padding:5px; margin-left:10.4%" type="text" class="form-control" name="studies_year"  >
-        <input  style="width:250px; padding:5px; margin-left:11.2%" type="text" class="form-control" name="studies_earned"  >
+        <input  style="width:250px; padding:5px; margin-left: 115px" type="text" class="form-control" name="studies-3"   >
+        <input  style="width:250px; padding:5px; margin-left:10.4%" type="text" class="form-control" name="studies_year-3"  >
+        <input  style="width:250px; padding:5px; margin-left:11.2%" type="text" class="form-control" name="studies_earned-3"  >
      </div>
      </div>
      </div>
@@ -351,20 +351,26 @@ include('./admin/db_connect.php');
         <input  value="<?php echo $row['college_award'] ?>" style="width:250px; padding:5px; margin-left:1%" type="text" class="form-control" name="college_award" >
      </div>
      <div class="col-md-4">
+         <?php 
+            $studies = $row['studies'] ? json_decode($row['studies']) : [];
+            $studies_year = $row['studies_year'] ? json_decode($row['studies_year']) : [];
+            $studies_earned = $row['studies_earned'] ? json_decode($row['studies_earned']) : [];
+         ?>
         <label for="" class="control-label">Advance Studies</label>
-        <input value="<?php echo $row['studies'] ?>" style="width:250px; padding:5px; margin-left: 3px" type="text" class="form-control" name="studies"   >
+        <input value="<?php echo count($studies) ? $studies[0] : '' ?>" style="width:250px; padding:5px; margin-left: 3px" type="text" class="form-control" name="studies-1"   >
          &nbsp; Year Graduated
-        <input value="<?php echo $row['studies_year'] ?>" style="width:250px; padding:5px; margin-left:1.2%" type="text" class="form-control" name="studies_year"  >
+        <input value="<?php echo count($studies_year) ? $studies_year[0] : '' ?>" style="width:250px; padding:5px; margin-left:1.2%" type="text" class="form-control" name="studies_year-1"  >
         &nbsp; Unit Earned
-        <input value="<?php echo $row['studies_earned'] ?>" style="width:250px; padding:5px; margin-left:3.6%" type="text" class="form-control" name="studies_earned"  >
+        <input value="<?php echo count($studies_earned) ? $studies_earned[0] : '' ?>" style="width:250px; padding:5px; margin-left:3.6%" type="text" class="form-control" name="studies_earned-1"  >
         <br>
-        <input value="<?php echo $row['studies'] ?>" style="width:250px; padding:5px; margin-left: 115px" type="text" class="form-control" name="studies"   >
-        <input value="<?php echo $row['studies_year'] ?>" style="width:250px; padding:5px; margin-left:10.4%"  type="text" class="form-control" name="studies_year"  >
-        <input value="<?php echo $row['studies_earned'] ?>" style="width:250px; padding:5px; margin-left:11.2%"  type="text" class="form-control" name="studies_earned"  >
+        <input value="<?php echo count($studies) > 1 ? $studies[1] : '' ?>" style="width:250px; padding:5px; margin-left: 115px" type="text" class="form-control" name="studies-2"   >
+        <input value="<?php echo count($studies_year) > 1 ? $studies_year[1] : '' ?>" style="width:250px; padding:5px; margin-left:10.4%"  type="text" class="form-control" name="studies_year-2"  >
+        <input value="<?php echo count($studies_earned) > 1 ? $studies_earned[1] : '' ?>" style="width:250px; padding:5px; margin-left:11.2%"  type="text" class="form-control" name="studies_earned-2"  >
         <br>
-        <input value="<?php echo $row['studies'] ?>" style="width:250px; padding:5px; margin-left: 115px" type="text" class="form-control" name="studies"   >
-        <input value="<?php echo $row['studies_year'] ?>" style="width:250px; padding:5px; margin-left:10.4%" type="text" class="form-control" name="studies_year"  >
-        <input  value="<?php echo $row['studies_earned'] ?>"style="width:250px; padding:5px; margin-left:11.2%" type="text" class="form-control" name="studies_earned"  >
+        
+        <input value="<?php echo count($studies) > 2 ? $studies[2] : '' ?>" style="width:250px; padding:5px; margin-left: 115px" type="text" class="form-control" name="studies-3"   >
+        <input value="<?php echo count($studies_year) > 2 ? $studies_year[2] : '' ?>" style="width:250px; padding:5px; margin-left:10.4%" type="text" class="form-control" name="studies_year-3"  >
+        <input  value="<?php echo count($studies_earned) > 2 ? $studies_earned[2] : '' ?>"style="width:250px; padding:5px; margin-left:11.2%" type="text" class="form-control" name="studies_earned-3"  >
      </div>
      </div>
      
