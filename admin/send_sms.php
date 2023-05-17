@@ -1,3 +1,4 @@
+<?php include('db_connect.php');?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,19 +18,30 @@
       <div class="modal-dialog" style="margin-left:280px; width:200%;">
         <div class="modal-content">
           <div class="modal-header modal-header-info">
-     
             <h4 class="modal-title"><span class="glyphicon glyphicon-envelope"></span> Compose Message</h4>
           </div>
           <div class="modal-body">
           <form action="send.php" method="POST" role="form" class="form-horizontal">
+            <label for="">Select Batch: </label>
+            <select name="batch" id="batch-filter">
+              <option value="">All</option>
+              <?php
+                $index = 1;
+                $batches = $conn->query("SELECT DISTINCT(users.course) FROM `graduate_survey_form` JOIN users ON graduate_survey_form.user_id = users.id");
+                while ($batch=$batches->fetch_assoc()):
+              ?>
+                <option value="<?php echo $batch['course']; ?>"><?php echo $batch['course']; ?></option>
+              <?php 
+                $index++;
+                endwhile;
+              ?>
+            </select>
             
-
-                <div class="form-group">
-                  <label class="col-sm-12" for="inputBody"><span class="glyphicon glyphicon-list"></span>Message</label>
-                  <div class="col-sm-12"><textarea class="form-control" name="message" id="inputBody" rows="8"></textarea></div>
-                </div>
-           
-
+            <div class="form-group">
+              <label class="col-sm-12" for="inputBody"><span class="glyphicon glyphicon-list"></span>Message</label>
+              <div class="col-sm-12"><textarea class="form-control" name="message" id="inputBody" rows="8"></textarea></div>
+            </div>
+        
             <?php
                 if (isset($_GET['sent'])) {
                     echo "<script>alert('Message Sent')</script>";

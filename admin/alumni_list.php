@@ -129,6 +129,9 @@
 	td p{
 		margin: unset
 	}
+	th {
+		background: white;
+	}
 	img{
 		max-width:100px;
 		max-height:150px;
@@ -157,12 +160,15 @@
 		position: relative;
 	}
 	.filer-cont {
-		right: 0;
+		right: 20px;
 		position: absolute;
 		z-index: 1;
 	}
 	#DataTables_Table_0_filter {
 		display: none;
+	}
+	#prnt {
+		margin-right: 0px;
 	}
 
 	@media print {
@@ -183,6 +189,7 @@
 		table {
 			display: table;
 			vertical-align: middle;
+			border: solid 1px;
 		}
 
 		#view-panel {
@@ -197,8 +204,17 @@
 			display: block;
 		}
 
-		.filter-cont {
+		.filter-cont, #DataTables_Table_0_filter {
 			display: none !important;
+			opacity: 0 !important;
+		}
+
+		#batch-filter, label, #general-search, #employement-status-filter {
+			display: none !important;
+		}
+
+		table, th, tr, td {
+			border: solid 1px !important;
 		}
 	} 
 </style>
