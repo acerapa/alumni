@@ -240,25 +240,25 @@ include('./admin/db_connect.php');
 
     <div class="col-md-4">
         <label for="" class="control-label">Job Title</label>
-        <input  style="width:250px; padding:5px; margin-left:1%"   type="text" class="form-control" name="job" >
+        <input  style="width:250px; padding:5px; margin-left:1%"   type="text" class="form-control" name="job-1" >
          &nbsp; Date Hired
-        <input  style="width:247px; padding:5px; margin-left:1%"   type="date" class="form-control" name="job_year" >
+        <input  style="width:247px; padding:5px; margin-left:1%"   type="date" class="form-control" name="job_year-1" >
         &nbsp;Company Name
-        <input  style="width:250px; padding:5px; margin-left:1%"  type="text" class="form-control" name="job_company_name" >
+        <input  style="width:250px; padding:5px; margin-left:1%"  type="text" class="form-control" name="job_company_name-1" >
         <br>
         <label for="" class="control-label">Job Title</label>
-        <input  style="width:250px; padding:5px; margin-left:1%"   type="text" class="form-control" name="job" >
+        <input  style="width:250px; padding:5px; margin-left:1%"   type="text" class="form-control" name="job-2" >
         &nbsp; Date Hired
-        <input  style="width:247px; padding:5px; margin-left:1%"   type="date" class="form-control" name="job_year" >
+        <input  style="width:247px; padding:5px; margin-left:1%"   type="date" class="form-control" name="job_year-2" >
         &nbsp;Company Name
-        <input  style="width:250px; padding:5px; margin-left:1%"  type="text" class="form-control" name="job_company_name" >
+        <input  style="width:250px; padding:5px; margin-left:1%"  type="text" class="form-control" name="job_company_name-2" >
         <br>
         <label for="" class="control-label">Job Title</label>
-        <input  style="width:250px; padding:5px; margin-left:1%"   type="text" class="form-control" name="job" >
+        <input  style="width:250px; padding:5px; margin-left:1%"   type="text" class="form-control" name="job-3" >
          &nbsp; Date Hired
-        <input  style="width:247px; padding:5px; margin-left:1%"   type="date" class="form-control" name="job_year" >
+        <input  style="width:247px; padding:5px; margin-left:1%"   type="date" class="form-control" name="job_year-3" >
         &nbsp;Company Name
-        <input  style="width:250px; padding:5px; margin-left:1%"  type="text" class="form-control" name="job_company_name" >
+        <input  style="width:250px; padding:5px; margin-left:1%"  type="text" class="form-control" name="job_company_name-3" >
      </div>
       
      <br>
@@ -443,28 +443,32 @@ include('./admin/db_connect.php');
             <option value="employed">Employed</option>
             <option value="unemployed">Unemployed</option>
         </select> -->
-
+         <?php
+            $jobs = json_decode($row['job']);
+            $job_years = json_decode($row['job_year']);
+            $job_company_names = json_decode($row['job_company_name']);
+         ?>
         <div class="col-md-4">
         <label for="" class="control-label">Job Title</label>
-        <input value="<?php echo $row['job'] ?>" style="width:250px; padding:5px; margin-left:.6%"   type="text" class="form-control" name="job" >
+        <input value="<?php echo count($jobs) ? $jobs[0] : '' ?>" style="width:250px; padding:5px; margin-left:.6%"   type="text" class="form-control" name="job-1" >
          &nbsp; Date Hired
-        <input value="<?php echo $row['job_year'] ?>" style="width:247px; padding:5px; margin-left:1%"   type="date" class="form-control" name="job_year" >
+        <input value="<?php echo count($job_years) ? $job_years[0] : '' ?>" style="width:247px; padding:5px; margin-left:1%"   type="date" class="form-control" name="job_year-1" >
         &nbsp;Company Name
-        <input  value="<?php echo $row['job_company_name'] ?>" style="width:250px; padding:5px; margin-left:1%"  type="text" class="form-control" name="job_company_name" >
+        <input  value="<?php echo count($job_company_names) ? $job_company_names[0] : '' ?>" style="width:250px; padding:5px; margin-left:1%"  type="text" class="form-control" name="job_company_name-1" >
         <br>
         <label for="" class="control-label">Job Title</label>
-        <input value="<?php echo $row['job'] ?>" style="width:250px; padding:5px; margin-left:.6%"   type="text" class="form-control" name="job" >
+        <input value="<?php echo count($jobs) > 1 ? $jobs[1] : '' ?>" style="width:250px; padding:5px; margin-left:.6%"   type="text" class="form-control" name="job-2" >
         &nbsp; Date Hired
-        <input  value="<?php echo $row['job_year'] ?>"style="width:247px; padding:5px; margin-left:1%"   type="date" class="form-control" name="job_year" >
+        <input  value="<?php echo count($job_years) > 1 ? $job_years[1] : '' ?>"style="width:247px; padding:5px; margin-left:1%"   type="date" class="form-control" name="job_year-2" >
         &nbsp;Company Name
-        <input  value="<?php echo $row['job_company_name'] ?>"style="width:250px; padding:5px; margin-left:1%"  type="text" class="form-control" name="job_company_name" >
+        <input  value="<?php echo count($job_company_names) > 1 ? $job_company_names[1] : '' ?>"style="width:250px; padding:5px; margin-left:1%"  type="text" class="form-control" name="job_company_name-2" >
         <br>
         <label for="" class="control-label">Job Title</label>
-        <input value="<?php echo $row['job'] ?>" style="width:250px; padding:5px; margin-left:.6%"   type="text" class="form-control" name="job" >
+        <input value="<?php echo count($jobs) > 2 ? $jobs[2] : '' ?>" style="width:250px; padding:5px; margin-left:.6%"   type="text" class="form-control" name="job-3" >
          &nbsp; Date Hired
-        <input  value="<?php echo $row['job_year'] ?>"style="width:247px; padding:5px; margin-left:1%"   type="date" class="form-control" name="job_year" >
+        <input  value="<?php echo count($job_years) > 2 ? $job_years[2] : '' ?>"style="width:247px; padding:5px; margin-left:1%"   type="date" class="form-control" name="job_year-3" >
         &nbsp;Company Name
-        <input value="<?php echo $row['job_company_name'] ?>" style="width:250px; padding:5px; margin-left:1%"  type="text" class="form-control" name="job_company_name" >
+        <input value="<?php echo count($job_company_names) > 2 ? $job_company_names[2] : '' ?>" style="width:250px; padding:5px; margin-left:1%"  type="text" class="form-control" name="job_company_name-3" >
      </div>
 
      <button style="padding: 10px; width:20%; float:right; margin-bottom:9px; margin-top:13px;" type="update" name="update">Update</button>

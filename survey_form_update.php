@@ -25,9 +25,9 @@ $present_occupation = $_POST['present_occupation'];
 $date_hired = $_POST['date_hired'];
 $present_company_name = $_POST['present_company_name'];
 $present_company_address = $_POST['present_company_address'];
-$job = $_POST['job'];
-$job_year = $_POST['job_year'];
-$job_company_name = $_POST['job_company_name'];
+$job = json_encode([$_POST['job-1'], $_POST['job-2'], $_POST['job-3']]);
+$job_year = json_encode([$_POST['job_year-1'], $_POST['job_year-2'], $_POST['job_year-3']]);
+$job_company_name = json_encode([$_POST['job_company_name-1'], $_POST['job_company_name-2'], $_POST['job_company_name-3']]);
 
 
 

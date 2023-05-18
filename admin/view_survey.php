@@ -55,17 +55,17 @@ foreach($qry->fetch_array() as $k => $val){
                 <p>College: <b><?php echo $college ?></b></p>
 				<p>Year Graduated: <b><?php echo $college_year ?></b></p>
 				<p>Award: <b><?php echo $college_award ?></b></p>
-				<p>Advance Studies: <b><?php echo $studies ?></b></p>
-				<p>Year Graduated: <b><?php echo $studies_year ?></b></p>
-				<p>Unit Earned: <b><?php echo $studies_earned ?></b></p>
+				<p>Advance Studies: <b><?php echo implode(",", json_decode($studies)) ?></b></p>
+				<p>Year Graduated: <b><?php echo implode(",", json_decode($studies_year)) ?></b></p>
+				<p>Unit Earned: <b><?php echo implode(",", json_decode($studies_earned)) ?></b></p>
                 <p>Status: <b><?php echo $employment_status ?></b></p>
                 <p>Occupation: <b><?php echo $present_occupation ?></b></p>
                 <p>Date Hired: <b><?php echo $date_hired ?></b></p>
                 <p>Company Name: <b><?php echo $present_company_name ?></b></p>
                 <p>Company Address: <b><?php echo $present_company_address ?></b></p>
-				<p>Previous Job: <b><?php echo $job ?></b></p>
-			    <p>Date Hired: <b><?php echo $job_year ?></b></p>
-				<p>Company Name: <b><?php echo $job_company_name ?></b></p>
+				<p>Previous Job: <b><?php echo implode(",", json_decode($job)) ?></b></p>
+			    <p>Date Hired: <b><?php echo implode(",", json_decode($job_year)) ?></b></p>
+				<p>Company Name: <b><?php echo implode(",", json_decode($job_company_name)) ?></b></p>
 
 				<?php
 					include('db_connect.php');
