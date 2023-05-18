@@ -1,5 +1,9 @@
 <?php 
-include 'admin/db_connect.php'; 
+include 'admin/db_connect.php';
+$result = $conn->query("SELECT * FROM alumnus_bio JOIN users ON alumnus_bio.id = users.idnum WHERE alumnus_bio.id = ". $_SESSION['bio']['id']);
+$data = $result->fetch_assoc();
+
+var_dump($data);
 
 ?>
 <style>
@@ -40,22 +44,22 @@ include 'admin/db_connect.php';
                                         <div class="row form-group">
                                             <div class="col-md-4">
                                                 <label for="" class="control-label">Last Name</label>
-                                                <input type="text" class="form-control" name="lastname" value="<?php echo $_SESSION['bio']['lastname'] ?>" required>
+                                                <input type="text" class="form-control" name="lastname" value="<?php echo $data['lastname'] ?>" required>
                                             </div>
                                             <div class="col-md-4">
                                                 <label for="" class="control-label">First Name</label>
-                                                <input type="text" class="form-control" name="firstname" value="<?php echo $_SESSION['bio']['firstname'] ?>" required>
+                                                <input type="text" class="form-control" name="firstname" value="<?php echo $data['firstname'] ?>" required>
                                             </div>
                                             <div class="col-md-4">
                                                 <label for="" class="control-label">Middle Name</label>
-                                                <input type="text" class="form-control" name="middlename" value="<?php echo $_SESSION['bio']['middlename'] ?>" >
+                                                <input type="text" class="form-control" name="middlename" value="<?php echo $data['middlename'] ?>" >
                                             </div>
                                         </div>
                         
                                         <div class="row">
                                              <div class="col-md-4">
                                                 <label for="" class="control-label">Email</label>
-                                                <input type="email" class="form-control" name="email"  value="<?php echo $_SESSION['bio']['email'] ?>" required>
+                                                <input type="email" class="form-control" name="email"  value="<?php echo $data['email'] ?>" required>
                                             </div>
                                             <div class="col-md-4">
                                                 <label for="" class="control-label">Password</label>
@@ -63,7 +67,7 @@ include 'admin/db_connect.php';
                                             </div>
                                             <div class="col-md-4">
                                                 <label for="" class="control-label">Contact</label>
-                                                <input type="contact" class="form-control" name="contact">
+                                                <input type="contact" class="form-control" name="contact" value="<?php echo $data['contact'] ?>">
                                             </div>
                                         </div>
                                         <div id="msg">
@@ -108,12 +112,14 @@ include 'admin/db_connect.php';
 $('#update_account').submit(function(e){
     e.preventDefault()
     start_load()
+    let data = {};
+    ($( this ).serializeArray()).forEach(cred => {
+        data[cred.name] = cred.value;
+    });
+
     $.ajax({
         url:'admin/ajax.php?action=update_account',
-        data: new FormData($(this)[0]),
-        cache: false,
-        contentType: false,
-        processData: false,
+        data: data,
         method: 'POST',
         type: 'POST',
         success:function(resp){

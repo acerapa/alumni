@@ -162,41 +162,30 @@ Class Action {
 
 	function update_account(){
 		extract($_POST);
+		$data = "";
 		if(!empty($password))
-		$data .= ", password = '".$password."' ";
-		$chk = $this->db->query("SELECT * FROM users where username = '$email' and id != '{$_SESSION['login_id']}' ")->num_rows;
-		if($chk > 0){
-			return 2;
-			exit;
-		}
-		$data = " name = '".$firstname.' '.$lastname."' ";
-		$data .= ", username = '$email' ";
-			$save = $this->db->query("UPDATE users set $data where id = '{$_SESSION['login_id']}' ");
+		$data .= ", password = '".$password."', ";
+		if(!empty($contact))
+		$data.= "contact = '".$contact."' ";
+		
+		$save = $this->db->query("UPDATE users set $data where id = '{$_SESSION['login_id']}' ");
+		
 		if($save){
 			$data = '';
-			foreach($_POST as $k => $v){
-				if($k =='password')
-					continue;
-				if(empty($data) && !is_numeric($k) )
-					$data = " $k = '$v' ";
-				else
-					$data .= ", $k = '$v' ";
-			}
-			if($_FILES['img']['tmp_name'] != ''){
-							$fname = strtotime(date('y-m-d H:i')).'_'.$_FILES['img']['name'];
-							$move = move_uploaded_file($_FILES['img']['tmp_name'],'assets/uploads/'. $fname);
-							$data .= ", avatar = '$fname' ";
-
-			}
-			$save_alumni = $this->db->query("UPDATE alumnus_bio set $data where id = '{$_SESSION['bio']['id']}' ");
-			if($data){
-				foreach ($_SESSION as $key => $value) {
-					unset($_SESSION[$key]);
-				}
-				$login = $this->login2();
-				if($login)
-				return 1;
-			}
+			if (!empty($lastname))
+				$data .= "`lastname` = '$lastname', ";
+			if (!empty($firstname))
+				$data .= "`firstname` = '$firstname', ";
+			if (!empty($middlename))
+				$data .= "`middlename` = '$middlename', ";
+			if (!empty($email))
+				$data .= "`email` = '$email', ";
+			if (!empty($contact))
+				$data .= "contact = '$contact' ";
+				
+			print("UPDATE `alumnus_bio` SET $data WHERE `alumnus_bio`.`id` = {$_SESSION['bio']['id']};");
+			$save = $this->db->query("UPDATE `alumnus_bio` SET $data WHERE `alumnus_bio`.`id` = {$_SESSION['bio']['id']};");
+			var_dump($save);
 		}
 	}
 

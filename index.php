@@ -205,7 +205,7 @@ a.jqte_tool_label.unselectable {
                 if(resp){
                     alert_toast("Logout",'success')
                     setTimeout(function(){
-                        location.reload()
+                        location.href = "index.php"
                     },1500)
                 }
             }
