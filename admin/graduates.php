@@ -33,6 +33,8 @@
  					$graduates = $conn->query("SELECT * FROM graduates order by batch_year asc");
  					$i = 1;
  					while($row= $graduates->fetch_assoc()):
+						$employed_numbers = $conn->query("SELECT COUNT(*) as employed FROM graduate_survey_form JOIN users ON users.id = graduate_survey_form.user_id WHERE graduate_survey_form.employment_status = 'employed' AND users.course = '". $row['batch_year'] ."';")->fetch_assoc();
+						$unemployed_numbers = $conn->query("SELECT COUNT(*) as unemployed FROM graduate_survey_form JOIN users ON users.id = graduate_survey_form.user_id WHERE graduate_survey_form.employment_status = 'unemployed' AND users.course = '". $row['batch_year'] ."';")->fetch_assoc();
 				 ?>
 				 <tr>
 				 	<td>
@@ -42,13 +44,13 @@
 					 	<?php echo $row['graduates'] ?>
 				 	</td>
 				 	<td>
-				 		<?php echo $row['employed'] ?>
+				 		<?php echo $employed_numbers['employed'] ?>
 				 	</td>
 					 <td>
-				 		<?php echo $row['unemployed'] ?>
+				 		<?php echo $unemployed_numbers['unemployed'] ?>
 				 	</td>
 					 <td>
-				 		<?php echo $row['not_tracked'] ?>
+				 		<?php echo $row['graduates'] - ($employed_numbers['employed'] + $unemployed_numbers['unemployed']) ?>
 				 	</td>
 				 	<td>
 				 		<?php echo $row['date_added'] ?>
