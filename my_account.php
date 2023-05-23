@@ -126,9 +126,12 @@ $('#update_account').submit(function(e){
             if(resp == 1){
                 alert_toast("Account successfully updated.",'success');
                 setTimeout(function(){
-                 location.reload()
+                    location.href = "index.php"
                 },700)
             }else{
+                setTimeout(() => {
+                    location.href = "index.php"
+                }, 1000);
                 $('#msg').html('<div class="alert alert-success">Updated Successfully</div>')
                 end_load()
             }
