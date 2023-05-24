@@ -34,26 +34,26 @@ foreach($qry->fetch_array() as $k => $val){
 		display: block
 	}
 </style>
-<div class="container-field">
-	<div class="col-lg-12">
-		<hr>
-		<div class="row">
-			<div class="col-md-6">
-			<form action="sendmail.php" method="post">
-				<p>ID: <b><?php echo $id ?></b></p>
-				<p>Name: <b><?php echo $name ?></b></p>
-				<p>Batch: <b><?php echo $course ?></b></p>
-				<p>Email: <b><?php echo $email ?></b></p>
-				<input type="hidden" name="email" value="<?php echo $email?>">
-				<input type="hidden" name="subject" value="Verified Account">
-				</form>
-			</div>
-			<div class="col-md-6">
-				<p>Account Status: <b><?php echo $status == 1 ? '<span class="badge badge-primary">Verified</span>' : '<span class="badge badge-secondary">Unverified</span>' ?></b></p>
+<form action="" method="post">
+	<div class="container-field">
+		<div class="col-lg-12">
+			<hr>
+			<div class="row">
+				<div class="col-md-6">
+					<p>ID: <b><?php echo $id ?></b></p>
+					<p>Name: <b><?php echo $name ?></b></p>
+					<p>Batch: <b><?php echo $course ?></b></p>
+					<p>Email: <b><?php echo $email ?></b></p>
+					<input type="hidden" name="email" id="email" value="<?php echo $email?>">
+					<input type="hidden" name="subject" value="Verified Account">
+					
+				</div>
+				<div class="col-md-6">
+					<p>Account Status: <b><?php echo $status == 1 ? '<span class="badge badge-primary">Verified</span>' : '<span class="badge badge-secondary">Unverified</span>' ?></b></p>
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
 
 	<div class="row">
 		<div class="col-lg-12">
@@ -65,8 +65,10 @@ foreach($qry->fetch_array() as $k => $val){
 			<?php endif; ?>
 		</div>
 	</div>
+</form>
 <script>
-	$('.update').click(function(){
+	$('.update').click(function(e){
+		e.preventDefault();
 		start_load()
 		$.ajax({
 			url:'ajax.php?action=update_alumni_acc',
@@ -75,10 +77,20 @@ foreach($qry->fetch_array() as $k => $val){
 			success:function(resp){
 				if(resp == 1){
 					alert_toast("Alumnus/Alumna account status successfully updated.")
-					setTimeout(function(){
-						location.reload()
-						document.getElementById("button1").click();
-					},1000)
+					// setTimeout(function(){
+					// 	location.reload()
+					// 	document.getElementById("button1").click();
+					// },1000)
+
+					$.ajax({
+						url: "sendmail.php",
+						method: "POST",
+						data: {email: $('#email').val()},
+						success: function (res) {
+							end_load();
+							location.reload();
+						}
+					});
 				}
 			}
 		})

@@ -6,28 +6,30 @@ require 'phpmailer/src/Exception.php';
 require 'phpmailer/src/PHPMailer.php';
 require 'phpmailer/src/SMTP.php';
 
-
-if(isset($_POST['send'])) {
+if(isset($_POST['email'])) {
     $mail = new PHPMailer(true);
 
     $mail->isSMTP();
-    $mail->Host = 'smtp.gmail.com';
+    $mail->Host = 'smtp-relay.sendinblue.com';
+    // $mail->Host = 'smtp.gmail.com';
     $mail->SMTPAuth = true;
-    $mail->Username = 'graduateemploymenttrackingsyst@gmail.com';
-    $mail->Password = 'qgoyzwakvdreihrm';
+    $mail->Username = 'projectdev751@gmail.com';
+    // $mail->Username = 'graduateemploymenttrackingsyst@gmail.com';
+    $mail->Password = 'ZxCpGXLg3n105NQj';
+    // $mail->Password = 'qgoyzwakvdreihrm';
     $mail->SMTPSecure = 'ssl';
     $mail->Port = 465;
 
-    $mail->setFrom('graduateemploymenttrackingsyst@gmail.com');
+    $mail->setFrom('projectdev751@gmail.com');
     $mail->addAddress($_POST['email']);
 
     $mail->isHTML((true));
-    $mail->Subject = $_POST['subject'];
+    $mail->Subject = isset($_POST['subject']) ? $_POST['subject'] : "Verified Account!";
     $mail->Body = "Youre account successfully verified you can now access to the system!";
-    $mail->send();
+    $dd = $mail->send();
     echo "<script>alert('Sent');</script>";
 }
-header("Location: index.php?page=alumni");
+// header("Location: index.php?page=alumni");
 exit;
 ?>
 
